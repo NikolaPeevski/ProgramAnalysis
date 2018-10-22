@@ -1,14 +1,6 @@
-#!/usr/bin/env python3
-"""
-Variable definition for MicroC variables
-"""
+from types.Expression import Expression
 
 
-class Variable:
-    def __init__(self, value):
-        """ Main constructor for values """
-        self.value = value
-
-    def getvalue(self):
-        """ Getting said value """
-        return self.value
+class Variable(Expression):
+    def __init__(self, name: str):
+        self.name = name
