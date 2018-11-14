@@ -1,13 +1,10 @@
-from types.Expression import Expression
+from types.BooleanExpression import BooleanExpression
 from types.Statement import Statement
-from types.StatementSequence import StatementSequence
 
 
 class IfStatement(Statement):
 
-    def __init__(self, condition: Expression, body_if: StatementSequence):
-        self.condition = condition
-        self.body_if = body_if
-
-    def draw(self):
-        pass
+    def __init__(self, boolean_expression: BooleanExpression, statement: Statement):
+        self.statement = statement
+        self.boolean_expression = boolean_expression
+        

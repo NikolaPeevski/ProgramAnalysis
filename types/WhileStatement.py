@@ -1,13 +1,9 @@
-from types.Operator import Operator
+from types.BooleanExpression import BooleanExpression
 from types.Statement import Statement
-from types.StatementSequence import StatementSequence
 
 
 class WhileStatement(Statement):
 
-    def __init__(self, operator: Operator, body: StatementSequence):
-        self.operator = operator
-        self.body = body
-
-    def draw(self):
-        pass
+    def __init__(self, boolean_expression: BooleanExpression, statement: Statement):
+        self.boolean_expression = boolean_expression
+        self.statement = statement

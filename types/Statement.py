@@ -1,7 +1,5 @@
 from abc import ABC
 
-from Drawable import Drawable
 
-
-class Statement(Drawable, ABC):
+class Statement(ABC):
     pass

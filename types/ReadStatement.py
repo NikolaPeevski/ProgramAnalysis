@@ -1,10 +1,8 @@
+from types.Expression import Expression
 from types.Statement import Statement
 
 
 class ReadStatement(Statement):
 
-    def __init__(self, name: str):
-        self.name = name
-
-    def draw(self):
-        pass
+    def __init__(self, expression: Expression):
+        self.expression = expression

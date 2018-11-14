@@ -1,10 +1,10 @@
-from types.Expression import Expression
+from types.BooleanExpression import BooleanExpression
 from types.IfStatement import IfStatement
-from types.StatementSequence import StatementSequence
+from types.Statement import Statement
 
 
 class IfElseStatement(IfStatement):
 
-    def __init__(self, condition: Expression, body_if: StatementSequence, body_else: StatementSequence):
-        super().__init__(condition, body_if)
-        self.body_else = body_else
+    def __init__(self, boolean_expression: BooleanExpression, if_statement: Statement, else_statement: Statement):
+        super().__init__(boolean_expression, if_statement)
+        self.else_statement = else_statement
