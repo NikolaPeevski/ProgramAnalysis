@@ -1,6 +1,6 @@
-from types.BooleanExpression import BooleanExpression
-from types.IfStatement import IfStatement
-from types.Statement import Statement
+from microCTypes.BooleanExpression import BooleanExpression
+from microCTypes.IfStatement import IfStatement
+from microCTypes.Statement import Statement
 
 
 class IfElseStatement(IfStatement):

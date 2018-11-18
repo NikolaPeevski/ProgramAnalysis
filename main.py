@@ -3,10 +3,10 @@
 Module Docstring
 """
 from analysis.Analysis import Analysis
-from types.AssignmentStatement import AssignmentStatement
-from types.SequenceStatement import SequenceStatement
-from types.Program import Program
-from types.VariableDeclaration import VariableDeclaration
+from microCTypes.AssignmentStatement import AssignmentStatement
+from microCTypes.SequenceStatement import SequenceStatement
+from microCTypes.Program import Program
+from microCTypes.VariableDeclaration import VariableDeclaration
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."

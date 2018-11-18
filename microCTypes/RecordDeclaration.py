@@ -1,4 +1,4 @@
-from types.Declaration import Declaration
+from microCTypes.Declaration import Declaration
 
 
 class RecordDeclaration(Declaration):
@@ -7,3 +7,4 @@ class RecordDeclaration(Declaration):
         super().__init__('R')
         self.fst = fst
         self.snd = snd
+

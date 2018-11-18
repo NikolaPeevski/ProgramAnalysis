@@ -1,4 +1,4 @@
-from types.Declaration import Declaration
+from microCTypes.Declaration import Declaration
 
 
 class ArrayDeclaration(Declaration):

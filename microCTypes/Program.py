@@ -1,5 +1,5 @@
-from types.Declaration import Declaration
-from types.Statement import Statement
+from microCTypes.Declaration import Declaration
+from microCTypes.Statement import Statement
 
 
 class Program:

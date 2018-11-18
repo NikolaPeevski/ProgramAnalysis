@@ -1,4 +1,4 @@
-from types.Statement import Statement
+from microCTypes.Statement import Statement
 
 
 class SequenceStatement(Statement):

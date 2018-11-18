@@ -1,4 +1,4 @@
-from types.Program import Program
+from microCTypes.Program import Program
 
 
 class Analysis:

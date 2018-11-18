@@ -1,4 +1,4 @@
-from types.Operator import Operator
+from microCTypes.Operator import Operator
 
 
 class EqualityOperator(Operator):
