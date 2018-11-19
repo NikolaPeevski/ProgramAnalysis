@@ -1,7 +1,8 @@
-from types.Statement import Statement
+from microCTypes.Statement import Statement
 
 
 class SequenceStatement(Statement):
+    # TODO Implement this
 
     def __init__(self, first_statement: Statement, second_statement: Statement):
         self.first_statement = first_statement

@@ -3,10 +3,10 @@
 Module Docstring
 """
 from analysis.Analysis import Analysis
-from types.AssignmentStatement import AssignmentStatement
-from types.SequenceStatement import SequenceStatement
-from types.Program import Program
-from types.VariableDeclaration import VariableDeclaration
+from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
+from microCTypes.SequenceStatement import SequenceStatement
+from microCTypes.Program import Program
+from microCTypes.VariableDeclaration import VariableDeclaration
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
@@ -15,10 +15,9 @@ __license__ = "MIT"
 
 def main():
 
-    program = Program(
-        VariableDeclaration('x'),
-        AssignmentStatement('x', 5)
-    )
+    program = Program("MyProgram1")
+    program.makeDeclaration(VariableDeclaration('x'))
+    program.makeStatement(VariableAssignmentStatement('x', 5))
 
     analysis = Analysis(program)
 
