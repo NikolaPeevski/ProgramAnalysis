@@ -8,3 +8,9 @@ class WhileStatement(Statement):
         self.boolean_expression = boolean_expression
         self.statement = statement
 
+    def getExpression(self):
+        return self.boolean_expression
+
+    def getStatement(self):
+        return self.statement
+

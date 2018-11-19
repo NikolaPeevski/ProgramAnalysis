@@ -3,7 +3,7 @@
 Module Docstring
 """
 from analysis.Analysis import Analysis
-from microCTypes.AssignmentStatement import AssignmentStatement
+from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.SequenceStatement import SequenceStatement
 from microCTypes.Program import Program
 from microCTypes.VariableDeclaration import VariableDeclaration
@@ -15,10 +15,9 @@ __license__ = "MIT"
 
 def main():
 
-    program = Program(
-        VariableDeclaration('x'),
-        AssignmentStatement('x', 5)
-    )
+    program = Program("MyProgram1")
+    program.makeDeclaration(VariableDeclaration('x'))
+    program.makeStatement(VariableAssignmentStatement('x', 5))
 
     analysis = Analysis(program)
 
