@@ -1,11 +1,13 @@
 from microCTypes.Declaration import Declaration
 from microCTypes.Statement import Statement
+from microCTypes.WhileStatement import WhileStatement
 
 
 class Program:
     programBlocks: [] = []
     declarations: [] = []
     statements: [] = []
+
 
     # TODO Implement this
     def __init__(self, declaration: Declaration = None, statement: Statement = None):
@@ -18,15 +20,39 @@ class Program:
     def makeDeclaration(self, dec: Declaration):
         self.programBlocks.append(dec)
         self.declarations.append(dec.getName())
-        pass
+        return dec
 
     def makeStatement(self, stat: Statement):
         self.programBlocks.append(stat)
         self.statements.append(stat.getName())
-        pass
+        return stat
 
     def toString(self):
         res = ""
+        innerBlockCounter = 0
 
         for i in range(len(self.programBlocks)):
-            res += '{} {}' % (i, self.programBlocks[i])
+            # print(i)
+            block = self.programBlocks[i]
+
+            # Could have special methods in the future
+            if isinstance(block, Statement):
+                print(i)
+                res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
+
+                innerStatements = self.programBlocks[i].expand()
+
+                for st_i in range(len(innerStatements)):
+                    innerBlockCounter += 1
+                    res += "\n"
+                    res += '{} {}'.format(i + 1 + innerBlockCounter, innerStatements[st_i].getName())
+
+            else:
+                res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
+
+            res += "\n"
+
+        return res
+
+    def getProgramBlocks(self):
+        return self.programBlocks
