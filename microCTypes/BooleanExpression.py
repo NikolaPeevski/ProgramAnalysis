@@ -19,7 +19,7 @@ class BooleanExpression(Expression):
         expression = ""
 
         for i in self.formattedExpression:
-            expression += i.getChar()
+            expression += i.getEntry()
 
         return expression
 

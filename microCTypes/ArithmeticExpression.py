@@ -19,9 +19,12 @@ class ArithmeticExpression(Expression):
         expression = ""
 
         for i in self.formattedExpression:
-            expression += i.getChar()
+            expression += i.getEntry()
 
         return expression
+
+    def getName(self):
+        return self.getExpression()
 
     def evaluateExpression(self):
         """
