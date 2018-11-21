@@ -32,12 +32,10 @@ class Program:
         innerBlockCounter = 0
 
         for i in range(len(self.programBlocks)):
-            # print(i)
             block = self.programBlocks[i]
 
             # Could have special methods in the future
             if isinstance(block, Statement):
-                print(i)
                 res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
 
                 innerStatements = self.programBlocks[i].expand()

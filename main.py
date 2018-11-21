@@ -21,12 +21,17 @@ __license__ = "MIT"
 
 
 def main():
+    # TODO: Add variable declatation tracking
+    # TODO: Add expression usage tracking
+    # TODO: Add lattice generation
+    # TODO: Add lattice utils (parsing, node printing etc)
     program = Program("MyProgram1")
     xDeclaration = program.makeDeclaration(VariableDeclaration('z'))
 
     program.makeStatement(VariableAssignmentStatement(xDeclaration.getVariable(), ArithmeticExpression([ExpressionEntry("Variable", "x"), ExpressionEntry(Operator("Arithmetic", "+"), "+"), ExpressionEntry("Variable", "y")])))
     program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
     program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
+
     print(program.toString())
 
     analysis = Analysis(program)
