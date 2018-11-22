@@ -26,13 +26,34 @@ def main():
     # TODO: Add lattice generation
     # TODO: Add lattice utils (parsing, node printing etc)
     program = Program("MyProgram1")
-    xDeclaration = program.makeDeclaration(VariableDeclaration('z'))
+    # xDeclaration = program.makeDeclaration(VariableDeclaration('z'))
+    #
+    # program.makeStatement(VariableAssignmentStatement(xDeclaration.getVariable(), ArithmeticExpression([ExpressionEntry("Variable", "x"), ExpressionEntry(Operator("Arithmetic", "+"), "+"), ExpressionEntry("Variable", "y")])))
+    # program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
+    # program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
 
-    program.makeStatement(VariableAssignmentStatement(xDeclaration.getVariable(), ArithmeticExpression([ExpressionEntry("Variable", "x"), ExpressionEntry(Operator("Arithmetic", "+"), "+"), ExpressionEntry("Variable", "y")])))
-    program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
-    program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
+    # print(program.toString())
 
-    print(program.toString())
+    lb5 = Statement("Skip", "Skip")
+    lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
+    lb2 = WhileStatement(BooleanExpression([ExpressionEntry("Variable", "Z"), ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry("5", "5")]))
+
+    lb4.appendNode(lb5)
+
+    lb6 = VariableAssignmentStatement("y", 6)
+    lb3 = VariableAssignmentStatement("x", 5)
+
+    lb1 = VariableAssignmentStatement("z", 5)
+
+    program.appendNode(lb1)
+
+    lb2.appendNode(lb3)
+    lb2.appendNode(lb4)
+    lb2.appendNode(lb6)
+
+    program.appendNode(lb2)
+
+    program.getProgramBlocks()
 
     analysis = Analysis(program)
 

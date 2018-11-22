@@ -12,6 +12,3 @@ class VariableDeclaration(Statement):
     def getVariable(self):
         return self.variable
 
-    def getName(self):
-        return self.variable.getName()
-
