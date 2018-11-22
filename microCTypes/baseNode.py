@@ -1,10 +1,12 @@
 from abc import ABC
 
+
 class baseNode(ABC):
 
     def __init__(self, name: str, _type: str, parentNode, *node):
         self.name = name
         self.type = _type
+        self.label = 0
         # print(name)
 
         if parentNode is not None:
@@ -32,20 +34,22 @@ class baseNode(ABC):
     def getParentNode(self):
         return self.parentNode
 
-    def getNodes(self):
+    def getNodes(self, *counter):
         if len(self.nodes) == 0:
             return None
 
+        if counter is None:
+            counter = 1
         res = []
 
         for i in self.nodes:
-            print(i.getName(), self.getNodesLen())
-            if i.getNodesLen() > 0:
-                children = i.getNodes()
-                if children is None:
-                    res.append([i])
-                else:
-                    res.append([i, children])
+            print(i.getName(), self.getNodesLen(), i.getLabel())
+
+            children = i.getNodes(counter)
+            if children is None:
+                res.append([i])
+            else:
+                res.append([i, children])
 
         return res
 
@@ -57,3 +61,9 @@ class baseNode(ABC):
 
     def getNodesLen(self):
         return len(self.nodes)
+
+    def setLabel(self, label):
+        self.label = label
+
+    def getLabel(self):
+        return self.label

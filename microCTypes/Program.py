@@ -6,13 +6,10 @@ from microCTypes.WhileStatement import WhileStatement
 
 class Program(baseNode):
 
-    # TODO Implement this
+    # TODO Implement toString
+    #
     def __init__(self, name: str):
         super().__init__(name, "Base", None)
-
-    def insertProgramEntry(self, node):
-        super().appendNode(node)
-        return node
 
     def toString(self):
         res = ""
