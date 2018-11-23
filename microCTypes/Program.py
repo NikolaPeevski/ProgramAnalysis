@@ -39,6 +39,6 @@ class Program(baseNode):
     def getProgramBlocks(self):
         res = []
 
-        baseLevelNodes = super().getNodes()
+        baseLevelNodes = super().getNodes(0)
 
         print(baseLevelNodes)

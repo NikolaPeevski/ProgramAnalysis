@@ -38,26 +38,18 @@ def main():
     # For now I can't figure out how to label assign automated so we'll have to do it by hand
     label = 0;
     lb1 = VariableAssignmentStatement("z", 5)
-    lb1.setLabel(label)
-    label += 1
 
     lb2 = WhileStatement(BooleanExpression(
         [ExpressionEntry("Variable", "Z"), ExpressionEntry(Operator("Relative", "="), "="),
          ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry("5", "5")]))
-    lb2.setLabel(label)
-    label += 1
     lb3 = VariableAssignmentStatement("x", 5)
-    lb3.setLabel(label)
-    label += 1
     lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
-    lb4.setLabel(label)
-    label += 1
+    lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb5 = Statement("Skip", "Skip")
-    lb5.setLabel(label)
     lb4.appendNode(lb5)
-    label += 1
+    lb4_1.appendNode(lb5)
+    lb4.appendNode(lb4_1)
     lb6 = VariableAssignmentStatement("y", 6)
-    lb6.setLabel(label)
 
     lb2.appendNode(lb3)
 

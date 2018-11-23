@@ -34,24 +34,34 @@ class baseNode(ABC):
     def getParentNode(self):
         return self.parentNode
 
-    def getNodes(self, *counter):
-        if len(self.nodes) == 0:
-            return None
-
+    def getNodes(self, counter: int):
+        """
+        Retrieves and labels all nodes
+        :param counter: To keep count
+        :return: Nodes array and counter
+        """
+        print(self.getName(), self.label)
         if counter is None:
             counter = 1
+
+        if len(self.nodes) == 0:
+            return None, counter
+
         res = []
 
         for i in self.nodes:
-            print(i.getName(), self.getNodesLen(), i.getLabel())
+            i.label = counter
+            counter += 1
+            children, counter = i.getNodes(counter)
 
-            children = i.getNodes(counter)
             if children is None:
-                res.append([i])
+                res.append(i)
             else:
                 res.append([i, children])
 
-        return res
+            # print(i.getName(), i.getLabel(), res)
+
+        return res, counter
 
     def getName(self):
         return self.name
@@ -61,9 +71,6 @@ class baseNode(ABC):
 
     def getNodesLen(self):
         return len(self.nodes)
-
-    def setLabel(self, label):
-        self.label = label
 
     def getLabel(self):
         return self.label
