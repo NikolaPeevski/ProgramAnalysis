@@ -1,7 +1,7 @@
 from abc import ABC
 
 
-class baseNode(ABC):
+class BaseNode(ABC):
 
     def __init__(self, name: str, _type: str, parentNode, *node):
         self.name = name
