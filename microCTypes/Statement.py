@@ -1,20 +1,11 @@
 from abc import ABC
+from microCTypes.baseNode import baseNode
 
 
-class Statement(ABC):
-    # TODO Implement this
-    def __init__(self, name: str, _type: str, *statement):
-        self.name = name
-        self.type = _type
+class Statement(baseNode):
 
-        if statement is not None:
-            self.statement = statement
-
-    def getName(self):
-        return self.name
-
-    def getType(self):
-        return self.type
+    def __init__(self, name: str, _type):
+        super().__init__(name, _type, None)
 
     def getSubStatement(self):
         return self.statement
@@ -31,4 +22,5 @@ class Statement(ABC):
             st = st.getSubStatement()
 
         return statements
+
 

@@ -1,10 +1,7 @@
-from abc import ABC
+from microCTypes.baseNode import baseNode
 
 
-class Declaration(ABC):
+class Declaration(baseNode):
 
     def __init__(self, name: str):
-        self.name = name
-
-    def getName(self):
-        return self.name
+        super().__init__(name, "Declaration", None)

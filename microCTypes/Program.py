@@ -1,56 +1,44 @@
 from microCTypes.Declaration import Declaration
 from microCTypes.Statement import Statement
+from microCTypes.baseNode import baseNode
 from microCTypes.WhileStatement import WhileStatement
 
 
-class Program:
-    programBlocks: [] = []
-    declarations: [] = []
-    statements: [] = []
+class Program(baseNode):
 
-
-    # TODO Implement this
-    def __init__(self, declaration: Declaration = None, statement: Statement = None):
-        self.statement = statement
-        self.declaration = declaration
-
+    # TODO Implement toString
+    #
     def __init__(self, name: str):
-        self.name = name
-
-    def makeDeclaration(self, dec: Declaration):
-        self.programBlocks.append(dec)
-        self.declarations.append(dec.getName())
-        return dec
-
-    def makeStatement(self, stat: Statement):
-        self.programBlocks.append(stat)
-        self.statements.append(stat.getName())
-        return stat
+        super().__init__(name, "Base", None)
 
     def toString(self):
         res = ""
-        innerBlockCounter = 0
-
-        for i in range(len(self.programBlocks)):
-            block = self.programBlocks[i]
-
-            # Could have special methods in the future
-            if isinstance(block, Statement):
-                res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
-
-                innerStatements = self.programBlocks[i].expand()
-
-                for st_i in range(len(innerStatements)):
-                    innerBlockCounter += 1
-                    res += "\n"
-                    res += '{} {}'.format(i + 1 + innerBlockCounter, innerStatements[st_i].getName())
-
-            else:
-                res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
-
-            res += "\n"
+        # innerBlockCounter = 0
+        #
+        # for i in range(len(self.programBlocks)):
+        #     block = self.programBlocks[i]
+        #
+        #     # Could have special methods in the future
+        #     if isinstance(block, Statement):
+        #         res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
+        #
+        #         innerStatements = self.programBlocks[i].expand()
+        #
+        #         for st_i in range(len(innerStatements)):
+        #             innerBlockCounter += 1
+        #             res += "\n"
+        #             res += '{} {}'.format(i + 1 + innerBlockCounter, innerStatements[st_i].getName())
+        #
+        #     else:
+        #         res += '{} {}'.format(i + 1 + innerBlockCounter, self.programBlocks[i].getName())
+        #
+        #     res += "\n"
 
         return res
 
     def getProgramBlocks(self):
-        return self.programBlocks
+        res = []
+
+        baseLevelNodes = super().getNodes(0)
+
+        print(baseLevelNodes)
