@@ -1,7 +1,4 @@
-from abc import ABC
-
-
-class ExpressionEntry(ABC):
+class ExpressionEntry:
 
     def __init__(self, _type, entry):
         self.type = _type

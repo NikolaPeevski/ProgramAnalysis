@@ -1,10 +1,7 @@
-from microCTypes.Declaration import Declaration
-from microCTypes.Statement import Statement
-from microCTypes.baseNode import baseNode
-from microCTypes.WhileStatement import WhileStatement
+from microCTypes.BaseNode import BaseNode
 
 
-class Program(baseNode):
+class Program(BaseNode):
 
     # TODO Implement toString
     #

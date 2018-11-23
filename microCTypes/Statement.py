@@ -1,8 +1,7 @@
-from abc import ABC
-from microCTypes.baseNode import baseNode
+from microCTypes.BaseNode import BaseNode
 
 
-class Statement(baseNode):
+class Statement(BaseNode):
 
     def __init__(self, name: str, _type):
         super().__init__(name, _type, None)

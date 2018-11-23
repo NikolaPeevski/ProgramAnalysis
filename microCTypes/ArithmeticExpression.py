@@ -1,5 +1,4 @@
 from microCTypes.Expression import Expression
-from microCTypes.ExpressionEntry import ExpressionEntry
 
 
 class ArithmeticExpression(Expression):
@@ -10,6 +9,7 @@ class ArithmeticExpression(Expression):
         :param entries: An array/list of ExpressionEntry
         """
         super().__init__("ArithmeticExpression")
+
         self.formattedExpression = entries
 
     def getExpression(self):

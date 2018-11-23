@@ -20,8 +20,9 @@ class BaseNode(ABC):
             self.nodes = []
 
     def appendNode(self, node):
-        # print("{} node appended to parent {}. Nodes before appends are {}".format(node.getName(), self.getName(), self.getNodesLen()))
+
         node.setParent(self)
+
         self.nodes.append(node)
 
         # print("Nodes are")
