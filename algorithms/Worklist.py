@@ -1,5 +1,7 @@
 from abc import ABC
 
+from analysis.Analysis import Analysis
+
 
 class Worklist(ABC):
 
@@ -64,6 +66,6 @@ class Worklist(ABC):
 
         return condition, self.worklist
 
-    def iterate(self, list, analysis, ):
+    def iterate(self, list, analysis: Analysis):
         # TODO Implement this
         pass
