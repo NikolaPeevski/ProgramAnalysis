@@ -35,7 +35,7 @@ class BaseNode(ABC):
     def getParentNode(self):
         return self.parentNode
 
-    def getNodes(self, counter: int):
+    def getNodes(self, counter: int = None):
         """
         Retrieves and labels all nodes
         :param counter: To keep count
