@@ -16,17 +16,21 @@ class Analysis(ABC):
 
         self.contraints = []
 
+
+
     def iterate(self, iteration):
         """
         Iterate through the program parts
         For each iteration the analyse method is called
         :param iteration: The iteration step
         """
-        if type(iteration) == list:
+        if type(iteration) == list or type(iteration) == tuple:
             for i in iteration:
                 self.iterate(i)
         else:
-            self.analyse(iteration)
+            if not type(iteration) == int:
+                self.analyse(iteration)
+
 
     @abstractmethod
     def analyse(self, step):

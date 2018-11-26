@@ -2,6 +2,7 @@
 """
 Module Docstring
 """
+from analysis.ReachingDefinitions.ReachingDefinitions import ReachingDefinitions
 from analysis.Analysis import Analysis
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.ArithmeticExpression import ArithmeticExpression
@@ -37,19 +38,19 @@ def main():
 
     # For now I can't figure out how to label assign automated so we'll have to do it by hand
     label = 0;
-    lb1 = VariableAssignmentStatement("z", 5)
+    lb1 = VariableAssignmentStatement(Variable("z"), 5, 1)
 
     lb2 = WhileStatement(BooleanExpression(
         [ExpressionEntry("Variable", "Z"), ExpressionEntry(Operator("Relative", "="), "="),
          ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry("5", "5")]))
-    lb3 = VariableAssignmentStatement("x", 5)
+    lb3 = VariableAssignmentStatement(Variable("x"), 5, 3)
     lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb5 = Statement("Skip", "Skip")
     lb4.appendNode(lb5)
     lb4_1.appendNode(lb5)
     lb4.appendNode(lb4_1)
-    lb6 = VariableAssignmentStatement("y", 6)
+    lb6 = VariableAssignmentStatement(Variable("y"), 6, 6)
 
     lb2.appendNode(lb3)
 
@@ -61,8 +62,10 @@ def main():
 
     program.getProgramBlocks()
 
-    analysis = Analysis(program)
+    analysis = ReachingDefinitions(program)
 
+    analysis.iterate(program.getNodes())
+    print(analysis.contraints[0].name + " = ")
 
 if __name__ == "__main__":
     """ This is executed when run from the command line """
