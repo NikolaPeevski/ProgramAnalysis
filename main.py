@@ -50,7 +50,7 @@ def main():
     lb4.appendNode(lb5)
     lb4_1.appendNode(lb5)
     lb4.appendNode(lb4_1)
-    lb6 = VariableAssignmentStatement(Variable("y"), 6, 6)
+    lb6 = VariableAssignmentStatement(Variable("z"), 6, 6)
 
     lb2.appendNode(lb3)
 
@@ -65,7 +65,8 @@ def main():
     analysis = ReachingDefinitions(program)
 
     analysis.iterate(program.getNodes())
-    print(analysis.contraints[0].name + " = ")
+    for output in analysis.contraints:
+        print(output.name + " = Label " + str(output.values))
 
 if __name__ == "__main__":
     """ This is executed when run from the command line """

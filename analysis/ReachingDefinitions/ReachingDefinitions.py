@@ -5,29 +5,35 @@ import microCTypes as mt
 
 class ReachingDefinitions(Analysis):
 
-    killSet = {}
-    genSet = {}
+    killSet = []
+    genSet = []
 
     def analyse(self, step):
 
-        found = False
+
         if type(step) == mt.VariableAssignmentStatement.VariableAssignmentStatement:
             for constraint in self.contraints:
                 if constraint.name == step.getName():
-                      found == True
-                      self.killSet = Constraint(constraint.name, constraint.values)
-            self.genSet = Constraint(step.getName(), step.getLabel())
+                      if not type(step.parentNode) == mt.WhileStatement.WhileStatement:
+                        self.killSet = Constraint(constraint.name, [constraint.values])
+            self.genSet = Constraint(step.getName(), [step.getLabel()])
             self.updateConstraints(self.killSet, self.genSet)
         print(self.contraints)
 
     def updateConstraints(self, killSet, genSet):
         tempConstraints = self.contraints
-
-        for constraint in self.contraints:
-            for kill in killSet:
-                if constraint.name == kill[0].name:
+        found = False
+        if not killSet == []:
+            for constraint in self.contraints:
+                if constraint.name == killSet.name:
                     tempConstraints.remove(constraint)
-        tempConstraints.append(genSet)
+        if not genSet == []:
+            for constraint in tempConstraints:
+                if constraint.name == genSet.name:
+                    constraint.values.append(genSet.values[0])
+                    found = True
+            if not found:
+                tempConstraints.append(genSet)
         self.contraints = tempConstraints
 
 
