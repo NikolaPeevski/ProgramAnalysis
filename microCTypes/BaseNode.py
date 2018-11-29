@@ -7,7 +7,6 @@ class BaseNode(ABC):
         self.name = name
         self.type = _type
         self.label = 0
-        self.constraint = []
         # print(name)
 
         if parentNode is not None:
@@ -20,17 +19,9 @@ class BaseNode(ABC):
         else:
             self.nodes = []
 
-
-
-    def getConstraint(self):
-        return self.constraint
-
-    def setConstraint(self, constraint):
-        self.constraint = constraint
-
     def appendNode(self, node):
 
-       # node.setParent(self)
+        node.setParent(self)
 
         self.nodes.append(node)
 
