@@ -54,8 +54,8 @@ class Worklist(ABC):
         """
         The general work list algorithm implemented according to lecture 8 slide 15
         """
-        for constraint, counter in self.__program.getNodes():
-            self.insert(constraint)  # all constraints in the worklist
+        for x, c in self.__program.getNodes():
+            self.insert(x)  # all constraints in the worklist
             # TODO: Empty set as the least possible value in the lattice. Don't know if this is correct?
             self.__constraints.append({})  # The least element of L
             self.__influenced.append({})
