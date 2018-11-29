@@ -4,6 +4,7 @@ from analysis.Constraint import Constraint
 from algorithms.Worklist import Worklist
 from microCTypes import BaseNode
 from microCTypes.Program import Program
+from microCTypes import Statement
 
 class ReachingDefinitions(Analysis):
     killSet = []
@@ -21,7 +22,10 @@ class ReachingDefinitions(Analysis):
         self.contraints = []
 
         self.edges = []
+        counter = 0
         for node in program:
+            node.label = counter
+            counter = counter+1
             for neighbour in program[node]:
                 self.edges.append((node, neighbour))
 
@@ -32,14 +36,24 @@ class ReachingDefinitions(Analysis):
  ##          initialConstraints.append(x.getLabel(), [])
         for x in self.program:
             if type(x) == Program:
-                x.setConstraint([Constraint("x", "?"), Constraint("y", "?"), Constraint("z", "?")])
-            x.constraint = []
+                x.setConstraint([("x", "?"), ("y", "?"), ("z", "?")])
+            else:
+                x.constraint = []
         workList = Worklist(self.program, self, self.edges)
         workList.worklist()
 
     def analysenew(self, analyseObject):
-        pass
-
+        output = analyseObject[0].constraint.copy()
+        if type(analyseObject[1]) == mt.Statement.Statement:
+            hej = 0
+        if type(analyseObject[1]) == mt.VariableAssignmentStatement.VariableAssignmentStatement:
+            initialConstraints = analyseObject[0].constraint
+            for constraint in initialConstraints:
+                if constraint[0] == analyseObject[1].getName():
+                    output.remove(constraint)
+            genSet = (analyseObject[1].getName(), analyseObject[1].label)
+            output.append(genSet)
+        return output
 
 #isn't used atm, but still using as reference.
     def analyse(self, step, constraints):
@@ -49,7 +63,7 @@ class ReachingDefinitions(Analysis):
             for constraint in self.contraints:
                 if constraint.name == step.getName() and constraint.getValue() == step.getValue():
                     output.remove(constraint)
-            self.genSet = Constraint(step.getName(), [step.getLabel()])
+            self.genSet = {step.getName(), [step.getLabel()]}
             output.append(genSet)
         return output
 

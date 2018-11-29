@@ -16,7 +16,7 @@ from microCTypes.Variable import Variable
 from microCTypes.WhileStatement import WhileStatement
 from microCTypes.BooleanExpression import BooleanExpression
 from microCTypes.Statement import Statement
-
+from microCTypes.EndNode import EndNode
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
 __license__ = "MIT"
@@ -50,47 +50,51 @@ def main():
     lb5 = Statement("Skip", "Skip")
     lb6 = VariableAssignmentStatement("y", 6)
 
-    #program.appendNode(lb1)
-
-    #program.appendNode(lb2)
-
-    #lb2.appendNode(lb4)
-    #lb2.appendNode(lb6)
-    #lb2.appendNode(lb3)
-    #lb4.appendNode(lb5)
-    #lb4_1.appendNode(lb5)
-    #lb4.appendNode(lb4_1)
-
     program.appendNode(lb1)
 
-    lb1.appendNode(lb2)
+    program.appendNode(lb2)
 
-    lb2.appendNode(lb3)
-
+    lb2.appendNode(lb4)
     lb2.appendNode(lb6)
-
-    lb3.appendNode(lb4)
-
-    lb3.appendNode(lb2)
-
+    lb2.appendNode(lb3)
+    lb4.appendNode(lb5)
+    lb4_1.appendNode(lb5)
     lb4.appendNode(lb4_1)
 
-    lb4.appendNode(lb3)
+    #program.appendNode(lb1)
 
-    lb5.appendNode(lb4_1)
+    #lb1.appendNode(lb2)
+
+    #lb2.appendNode(lb3)
+
+    #lb2.appendNode(lb6)
+
+    #lb3.appendNode(lb4)
+
+    #lb3.appendNode(lb2)
+
+    #lb4.appendNode(lb4_1)
+
+    #lb4.appendNode(lb3)
+
+    #lb5.appendNode(lb4_1)
 
     #lb6.appendNode(lb7)
 
+    lb7 = EndNode("EndNode")
+    lb7.constraint = []
 
     graph = { program : [lb1],
           lb1 : [lb2],
           lb2 : [lb3, lb6],
           lb3 : [lb2, lb4],
           lb4 : [lb4_1, lb3],
+          lb4_1 : [lb5, lb4],
           lb5 : [lb4_1],
+          lb6 : [lb7]
         }
-
-#    program.getProgramBlocks()
+    program.getNodes()
+    program.getProgramBlocks()
 
 
 
@@ -100,7 +104,8 @@ def main():
 
     analysis = ReachingDefinitions(graph)
     analysis.startAnalysis()
-
+    for i in graph:
+        print(i.constraint)
 if __name__ == "__main__":
     """ This is executed when run from the command line """
     main()

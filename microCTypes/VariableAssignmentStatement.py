@@ -14,14 +14,14 @@ class VariableAssignmentStatement(Statement):
 
         if type(variable) == Variable:
             if type(value) == int:
-                super().__init__("{} = {}".format(variable.getName(), value), "Variable Assignment")
+                super().__init__(variable, value)
             else:
-                super().__init__("{} = {}".format(variable.getName(), value.getExpression()), "Variable Assignment")
+                super().__init__(variable, value)
         else:
             if type(value) == int:
-                super().__init__("{} = {}".format(variable, value), "Variable Assignment")
+                super().__init__(variable, str(value))
             else:
-                super().__init__("{} = {}".format(variable, value.getExpression()), "Variable Assignment")
+                super().__init__(variable, str(value))
 
 
         # super().__init__(variable.getName() + value.getExpression(), "Variable")

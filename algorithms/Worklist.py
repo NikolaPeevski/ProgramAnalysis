@@ -64,17 +64,27 @@ class Worklist(ABC):
         while not self.empty():
 
             next = self.__worklist[0]  # Consider the next constraint
-            self.__worklist.remove(next)
+            self.__worklist.remove(next) # Remove it from the worklist
+            workedOn = False
+            new = self.__analysis.analysenew(next) #analysestep
 
-            new = self.__analysis.analysenew(next)
 
-            # NEW TODO: these next steps
             # TODO: Make sure the comparison is correct
-            if new != next:  # Any work to do?
-
+            if not next[1] is None:
+                for constraint in new:
+                    if not next[1].constraint.__contains__(constraint):  # Any work to do?
+                        next[1].constraint.append(constraint)
+                        workedOn = True
+                if workedOn == True:
+                    if not self.__program.get(next[1]) is None:
+                        for newEdge in self.__program.get(next[1]):
+                            if not self.__worklist.__contains__((next[1], newEdge)):
+                                self.__worklist.append((next[1], newEdge))
+            else:
+                something = 0
                 # The slide depicts an union with the old constraints,
                 # so this will have to be looked at if assignment is correct
-                self.__constraints[next.getLabel()] = new  # Update the analysis info
+#                self.__constraints[next.getLabel()] = new  # Update the analysis info
 
-                for next_infl in self.__influenced[next.getLabel()]:
-                    self.insert(next_infl)  # Update the worklist
+ #               for next_infl in self.__influenced[next.getLabel()]:
+  #                  self.insert(next_infl)  # Update the worklist
