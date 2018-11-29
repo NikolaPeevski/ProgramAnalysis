@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from analysis.Constraint import Constraint
 from microCTypes.Program import Program
 
 
@@ -16,6 +17,8 @@ class Analysis(ABC):
 
         self.contraints = []
 
+        self.analyse(program.getNodes())
+
     def iterate(self, iteration):
         """
         Iterate through the program parts
@@ -29,7 +32,7 @@ class Analysis(ABC):
             self.analyse(iteration)
 
     @abstractmethod
-    def analyse(self, step):
+    def analyse(self, step) -> Constraint:
         """
         Perform the analysis and computes the constraints for the step at the current step
         :param step: The step to analyse

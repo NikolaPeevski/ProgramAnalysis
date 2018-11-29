@@ -41,7 +41,7 @@ class BaseNode(ABC):
         :param counter: To keep count
         :return: Nodes array and counter
         """
-        print(self.getName(), self.label)
+        #  print(self.getName(), self.label)
         if counter is None:
             counter = 1
 

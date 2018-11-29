@@ -1,6 +1,5 @@
 from microCTypes.Statement import Statement
 from microCTypes.Variable import Variable
-from microCTypes.ArithmeticExpression import ArithmeticExpression
 
 
 class VariableAssignmentStatement(Statement):
@@ -9,7 +8,6 @@ class VariableAssignmentStatement(Statement):
 
     def __init__(self, variable, value):
         """
-
         :param variable_name:
         :param value: ArithmeticExpression
         """
