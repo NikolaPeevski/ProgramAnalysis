@@ -2,11 +2,13 @@
 """
 Module Docstring
 """
+from analysis.ReachingDefinitions.ReachingDefinitions import ReachingDefinitions
 from analysis.Analysis import Analysis
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.ArithmeticExpression import ArithmeticExpression
 from microCTypes.SequenceStatement import SequenceStatement
 from microCTypes.Program import Program
+from microCTypes import BaseNode
 from microCTypes.VariableDeclaration import VariableDeclaration
 from microCTypes.ExpressionEntry import ExpressionEntry
 from microCTypes.Operator import Operator
@@ -46,23 +48,58 @@ def main():
     lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb5 = Statement("Skip", "Skip")
-    lb4.appendNode(lb5)
-    lb4_1.appendNode(lb5)
-    lb4.appendNode(lb4_1)
     lb6 = VariableAssignmentStatement("y", 6)
+
+    #program.appendNode(lb1)
+
+    #program.appendNode(lb2)
+
+    #lb2.appendNode(lb4)
+    #lb2.appendNode(lb6)
+    #lb2.appendNode(lb3)
+    #lb4.appendNode(lb5)
+    #lb4_1.appendNode(lb5)
+    #lb4.appendNode(lb4_1)
+
+    program.appendNode(lb1)
+
+    lb1.appendNode(lb2)
 
     lb2.appendNode(lb3)
 
-    program.appendNode(lb1)
-    lb2.appendNode(lb4)
     lb2.appendNode(lb6)
 
-    program.appendNode(lb2)
+    lb3.appendNode(lb4)
 
-    program.getProgramBlocks()
+    lb3.appendNode(lb2)
 
-    analysis = Analysis(program)
+    lb4.appendNode(lb4_1)
 
+    lb4.appendNode(lb3)
+
+    lb5.appendNode(lb4_1)
+
+    #lb6.appendNode(lb7)
+
+
+    graph = { program : [lb1],
+          lb1 : [lb2],
+          lb2 : [lb3, lb6],
+          lb3 : [lb2, lb4],
+          lb4 : [lb4_1, lb3],
+          lb5 : [lb4_1],
+        }
+
+#    program.getProgramBlocks()
+
+
+
+
+
+
+
+    analysis = ReachingDefinitions(graph)
+    analysis.startAnalysis()
 
 if __name__ == "__main__":
     """ This is executed when run from the command line """
