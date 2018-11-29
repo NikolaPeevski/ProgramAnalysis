@@ -70,7 +70,7 @@ class Worklist(ABC):
 
             # NEW TODO: these next steps
             # TODO: Make sure the comparison is correct
-            if self.__constraints[next.getLabel()] != new:  # Any work to do?
+            if new != next:  # Any work to do?
 
                 # The slide depicts an union with the old constraints,
                 # so this will have to be looked at if assignment is correct

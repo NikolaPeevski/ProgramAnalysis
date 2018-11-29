@@ -9,7 +9,7 @@ class ReachingDefinitions(Analysis):
     killSet = []
     genSet = []
 
-    def __init__(self, program, edges):
+    def __init__(self, program):
         """
         Base class for all program analysis
         Contains the abstract analyse method that performs
@@ -20,15 +20,14 @@ class ReachingDefinitions(Analysis):
 
         self.contraints = []
 
-        edges = []
+        self.edges = []
         for node in program:
             for neighbour in program[node]:
-                edges.append((node, neighbour))
+                self.edges.append((node, neighbour))
 
         # self.analyse(program.getNodes())
 
     def startAnalysis(self):
-
 #        initialConstraints = [0, Constraint("x", "?"), Constraint["y", "?"].Constraint["z", "?"]]
  ##          initialConstraints.append(x.getLabel(), [])
         for x in self.program:
