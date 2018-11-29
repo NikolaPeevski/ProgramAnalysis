@@ -7,7 +7,7 @@ from microCTypes.Program import Program
 
 class Worklist(ABC):
 
-    def __init__(self, program: Program, analysis: Analysis, edges = []):
+    def __init__(self, program: Program, analysis: Analysis):
         """
         Abstract base class for all Worklist algorithms
         :param program: The program to analyse
@@ -15,18 +15,18 @@ class Worklist(ABC):
         """
         self.__program = program  # The actual program that needs to be analysed
         self.__analysis = analysis  # The analysis we want to apply to the program
-        self.__worklist = edges  # Array containing the work list items
+        self.__worklist = []  # Array containing the work list items
         self.__constraints = []  # The updated constraints for each work list
         self.__influenced = []  # Influenced variables
 
-    #@abstractmethod
+    @abstractmethod
     def extract(self) -> BaseNode:
         """
         Extract the next constraint from the work list to be analysed
         """
         pass
 
-    #@abstractmethod
+    @abstractmethod
     def insert(self, constraint) -> None:
         """
         Insert a constraint into the work item list
@@ -34,7 +34,7 @@ class Worklist(ABC):
         """
         pass
 
-    #@abstractmethod
+    @abstractmethod
     def empty(self) -> bool:
         """
         Check if the work list is empty
@@ -54,21 +54,20 @@ class Worklist(ABC):
         """
         The general work list algorithm implemented according to lecture 8 slide 15
         """
-        #for x in self.__program.nodes:
-         #   self.__worklist.append(x)  # all constraints in the worklist
+        for x, c in self.__program.getNodes():
+            self.insert(x)  # all constraints in the worklist
             # TODO: Empty set as the least possible value in the lattice. Don't know if this is correct?
-              # The least element of L
+            self.__constraints.append({})  # The least element of L
+            self.__influenced.append({})
 
         # TODO: Implement the influence loop from Lecture 8 slide 15
 
         while not self.empty():
 
-            next = self.__worklist[0]  # Consider the next constraint
-            self.__worklist.remove(next)
+            next = self.extract()  # Consider the next constraint
 
-            new = self.__analysis.analysenew(next)
+            new = self.__analysis.__analyse(next)
 
-            # NEW TODO: these next steps
             # TODO: Make sure the comparison is correct
             if self.__constraints[next.getLabel()] != new:  # Any work to do?
 

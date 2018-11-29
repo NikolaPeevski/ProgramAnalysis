@@ -17,7 +17,7 @@ class Analysis(ABC):
 
         self.contraints = []
 
-        #self.analyse(program.getNodes())
+        self.analyse(program.getNodes())
 
     def iterate(self, iteration):
         """
