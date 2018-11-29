@@ -8,6 +8,17 @@ class ReachingDefinitions(Analysis):
     killSet = []
     genSet = []
 
+    def analyse(self, step, constraints):
+        genSet = []
+        output = constraints.copy()
+        if type(step) == mt.VariableAssignmentStatement.VariableAssignmentStatement:
+            for constraint in self.contraints:
+                if constraint.name == step.getName() and constraint.getValue() == step.getValue():
+                    output.remove(constraint)
+            self.genSet = Constraint(step.getName(), [step.getLabel()])
+            output.append(genSet)
+        return output
+
     def analyse(self, step):
 
 
