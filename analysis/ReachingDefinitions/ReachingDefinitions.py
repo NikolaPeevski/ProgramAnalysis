@@ -27,8 +27,7 @@ class ReachingDefinitions(Analysis):
             if type(programPoint) == VariableAssignmentStatement or type(
                     programPoint) == VariableDeclaration:  # if it's a variable declaration or variable assignment
                 new = (programPoint.getName(), '?')  # create new constraint
-                if not self.initialConstraints.__contains__(
-                        new):  # if the constraint is not already in the initial constraints - this would be the case with multiple assigments of variable X
+                if not self.initialConstraints.__contains__(new):  # if the constraint is not already in the initial constraints - this would be the case with multiple assigments of variable X
                     self.initialConstraints.append(new)  # add the constraint
 
     def analyse(self, step):
