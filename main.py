@@ -2,18 +2,17 @@
 """
 Module Docstring
 """
-from analysis.Analysis import Analysis
-from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
-from microCTypes.ArithmeticExpression import ArithmeticExpression
-from microCTypes.SequenceStatement import SequenceStatement
-from microCTypes.Program import Program
-from microCTypes.VariableDeclaration import VariableDeclaration
+from algorithms.Worklist import Worklist
+from analysis.SignDetection.SignDetection import SignDetection
+from microCTypes.BooleanExpression import BooleanExpression
+from microCTypes.EndNode import EndNode
 from microCTypes.ExpressionEntry import ExpressionEntry
 from microCTypes.Operator import Operator
-from microCTypes.Variable import Variable
-from microCTypes.WhileStatement import WhileStatement
-from microCTypes.BooleanExpression import BooleanExpression
+from microCTypes.Program import Program
 from microCTypes.Statement import Statement
+from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
+from microCTypes.VariableDeclaration import VariableDeclaration
+from microCTypes.WhileStatement import WhileStatement
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
@@ -35,33 +34,97 @@ def main():
 
     # print(program.toString())
 
-    # For now I can't figure out how to label assign automated so we'll have to do it by hand
-    label = 0;
     lb1 = VariableAssignmentStatement("z", 5)
 
     lb2 = WhileStatement(BooleanExpression(
-        [ExpressionEntry("Variable", "Z"), ExpressionEntry(Operator("Relative", "="), "="),
-         ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry("5", "5")]))
+        [
+            ExpressionEntry("Variable", "z"),
+            ExpressionEntry(Operator("Relative", "=="), "=="),
+            ExpressionEntry("Integer", "5")
+        ])
+    )
     lb3 = VariableAssignmentStatement("x", 5)
-    lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
-    lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
+    lb4 = WhileStatement(
+        BooleanExpression([
+            ExpressionEntry(Operator("Boolean", "true"), "true")
+        ])
+    )
+    lb4_1 = WhileStatement(
+        BooleanExpression([
+            ExpressionEntry(Operator("Boolean", "true"), "true")
+        ])
+    )
     lb5 = Statement("Skip", "Skip")
-    lb4.appendNode(lb5)
-    lb4_1.appendNode(lb5)
-    lb4.appendNode(lb4_1)
-    lb6 = VariableAssignmentStatement("y", 6)
 
-    lb2.appendNode(lb3)
+    lb6 = VariableDeclaration("y")
 
-    program.appendNode(lb1)
-    lb2.appendNode(lb4)
-    lb2.appendNode(lb6)
+    lb7 = EndNode("EndNode")
+    lb7.constraint = []
 
-    program.appendNode(lb2)
+    graph = {program: [lb1],
+             lb1: [lb2],
+             lb2: [lb3, lb6],
+             lb3: [lb2, lb4],
+             lb4: [lb4_1, lb3],
+             lb4_1: [lb5, lb4],
+             lb5: [lb4_1],
+             lb6: [lb7]
+             }
 
-    program.getProgramBlocks()
+    analysis = SignDetection(graph)
+    workList = Worklist(graph, analysis)
+    workList.worklist()
 
-    analysis = Analysis(program)
+    print(" ")
+    # representation parsing
+    for i in graph:
+        for x in i.constraint:
+            for y in i.constraint:
+                if x == y:
+                    continue
+                elif x[0] == y[0]:
+                    badguy = list(x)
+                    if not y[1].__contains__(x[1]):
+                        badguy[1] = str(x[1]) + ", " +str(y[1])
+                        i.constraint.append(tuple(badguy))
+                        if i.constraint.__contains__(x):
+                            i.constraint.remove(x)
+                        if i.constraint.__contains__(y):
+                            i.constraint.remove(y)
+
+
+        print(i.constraint)
+
+        # program.appendNode(lb1)
+
+        # program.appendNode(lb2)
+
+        # lb2.appendNode(lb4)
+        # lb2.appendNode(lb6)
+        # lb2.appendNode(lb3)
+        # lb4.appendNode(lb5)
+        # lb4_1.appendNode(lb5)
+        # lb4.appendNode(lb4_1)
+
+        # program.appendNode(lb1)
+
+        # lb1.appendNode(lb2)
+
+        # lb2.appendNode(lb3)
+
+        # lb2.appendNode(lb6)
+
+        # lb3.appendNode(lb4)
+
+        # lb3.appendNode(lb2)
+
+        # lb4.appendNode(lb4_1)
+
+        # lb4.appendNode(lb3)
+
+        # lb5.appendNode(lb4_1)
+
+        # lb6.appendNode(lb7)
 
 
 if __name__ == "__main__":

@@ -3,8 +3,6 @@ from microCTypes.Expression import Expression
 
 class BooleanExpression(Expression):
 
-    formattedExpression: []
-
     def __init__(self, entries: []):
         """
         :param entries: An array/list of ExpressionEntry

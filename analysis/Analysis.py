@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 
-from microCTypes.Program import Program
-
 
 class Analysis(ABC):
 
-    def __init__(self, program: Program):
+    def __init__(self, program):
         """
         Base class for all program analysis
         Contains the abstract analyse method that performs
@@ -15,18 +13,6 @@ class Analysis(ABC):
         self.program = program
 
         self.contraints = []
-
-    def iterate(self, iteration):
-        """
-        Iterate through the program parts
-        For each iteration the analyse method is called
-        :param iteration: The iteration step
-        """
-        if type(iteration) == list:
-            for i in iteration:
-                self.iterate(i)
-        else:
-            self.analyse(iteration)
 
     @abstractmethod
     def analyse(self, step):
