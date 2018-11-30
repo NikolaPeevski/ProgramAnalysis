@@ -104,6 +104,7 @@ def main():
 
     analysis = ReachingDefinitions(graph)
     analysis.startAnalysis()
+    print(" ")
     for i in graph:
         print(i.constraint)
 if __name__ == "__main__":

@@ -92,11 +92,17 @@ class Worklist(ABC):
                         for newEdge in self.__program.get(next[1]):
                             if not self.__worklist.__contains__((next[1], newEdge)):
                                 self.__worklist.append((next[1], newEdge))
-            else:
-                something = 0
+
+
                 # The slide depicts an union with the old constraints,
                 # so this will have to be looked at if assignment is correct
 #                self.__constraints[next.getLabel()] = new  # Update the analysis info
 
  #               for next_infl in self.__influenced[next.getLabel()]:
   #                  self.insert(next_infl)  # Update the worklist
+            labeling = []
+
+            for points in self.__worklist:
+                labeling.append(str(points[0].getLabel()) + " to " + str(points[1].getLabel()))
+            print(str(labeling) + " = " + str(next[0].constraint))
+

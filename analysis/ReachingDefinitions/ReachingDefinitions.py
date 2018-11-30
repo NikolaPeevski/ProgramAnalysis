@@ -33,11 +33,6 @@ class ReachingDefinitions(Analysis):
                 if not self.initialConstraints.__contains__(new):
                     self.initialConstraints.append(new)
 
-
-
-
-
-
         # self.analyse(program.getNodes())
 
     def startAnalysis(self):
@@ -58,7 +53,7 @@ class ReachingDefinitions(Analysis):
             genSet = (analyseObject[1].getName(), analyseObject[1].label)
             output.append(genSet)
 
-    #    if type analyseObject[1] == mt.Variable
+        #if type analyseObject[1] == mt.Variable
         return output
 
 
