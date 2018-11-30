@@ -1,12 +1,11 @@
 from algorithms.Worklist import Worklist
 from analysis.Analysis import Analysis
 from microCTypes.BaseNode import BaseNode
-from microCTypes.Program import Program
 
 
 class LIFO(Worklist):
 
-    def __init__(self, program: Program, analysis: Analysis):
+    def __init__(self, program, analysis: Analysis):
         """
         The Last-in Last-out worklist algorithm
         :param program: The program to analyse
@@ -15,10 +14,7 @@ class LIFO(Worklist):
         super().__init__(program, analysis)
 
     def insert(self, constraint) -> None:
-        pass
+        self.worklist_items.insert(0, constraint)
 
     def extract(self) -> BaseNode:
-        pass
-
-    def empty(self):
-        return
+        return self.worklist_items[len(self.worklist_items) - 1]
