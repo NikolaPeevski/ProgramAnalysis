@@ -5,8 +5,8 @@ from algorithms.Worklist import Worklist
 from microCTypes import BaseNode
 from microCTypes.Program import Program
 from microCTypes import Statement
-from microCTypes import VariableAssignmentStatement
-from microCTypes import VariableDeclaration
+from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
+from microCTypes.VariableDeclaration import VariableDeclaration
 
 class ReachingDefinitions(Analysis):
     killSet = []
@@ -27,63 +27,29 @@ class ReachingDefinitions(Analysis):
 
         self.initialConstraints = []
 
-        for programPoint in program:
-            if type(programPoint) == mt.VariableAssignmentStatement.VariableAssignmentStatement or type(programPoint) == mt.VariableDeclaration:
-                new = (programPoint.getName(), "?")
-                if not self.initialConstraints.__contains__(new):
-                    self.initialConstraints.append(new)
+        for programPoint in program: #      Create initial constrants based on variables across the program
+            if type(programPoint) == VariableAssignmentStatement or type(programPoint) == VariableDeclaration: #        if it's a variable declaration or variable assignment
+                new = (programPoint.getName(), "?") #       create new constraint
+                if not self.initialConstraints.__contains__(new):  #        if the constraint is not already in the initial constraints - this would be the case with multiple assigments of variable X
+                    self.initialConstraints.append(new) #       add the constraint
 
-        # self.analyse(program.getNodes())
 
-    def startAnalysis(self):
-#        initialConstraints = [0, Constraint("x", "?"), Constraint["y", "?"].Constraint["z", "?"]]
- ##          initialConstraints.append(x.getLabel(), [])
-
-        workList = Worklist(self.program, self)
-        workList.worklist()
 
     def analysenew(self, analyseObject):
-        output = analyseObject[0].constraint.copy() #copy the constraints so we can work with them safely
+        output = analyseObject[0].constraint.copy() #   Copy the constraints so we can work with them safely
 
-        if type(analyseObject[1]) == mt.VariableAssignmentStatement.VariableAssignmentStatement: # if type variable assignment
-            initialConstraints = analyseObject[0].constraint #
-            for constraint in initialConstraints:
-                if constraint[0] == analyseObject[1].getName():
-                    output.remove(constraint)
-            genSet = (analyseObject[1].getName(), analyseObject[1].label)
-            output.append(genSet)
+        if type(analyseObject[1]) == VariableAssignmentStatement or type(analyseObject[1]) == VariableDeclaration: # If type variable assignment
+            initialConstraints = analyseObject[0].constraint #    get the constraints we know from the node we're going from
+            for constraint in initialConstraints: #     For all these constraints
+                if constraint[0] == analyseObject[1].getName(): #       If the assignments variable is represented in a known constraint
+                    output.remove(constraint) #     Remove that constraints - kill it
+            genSet = (analyseObject[1].getName(), analyseObject[1].label) #     create a genSet based on the name of variable and the label of the node we're going to
+            output.append(genSet) #     Put the new constraint into the known constraints
 
-        #if type analyseObject[1] == mt.Variable
+
+
         return output
 
 
 
 
-
-#isn't used atm, but still using as reference.
-    def analyse(self, step, constraints):
-        genSet = []
-        output = constraints.copy()
-        if type(step) == mt.VariableAssignmentStatement.VariableAssignmentStatement:
-            for constraint in self.contraints:
-                if constraint.name == step.getName() and constraint.getValue() == step.getValue():
-                    output.remove(constraint)
-            self.genSet = {step.getName(), [step.getLabel()]}
-            output.append(genSet)
-        return output
-
-    def updateConstraints(self, killSet, genSet):
-        tempConstraints = self.contraints
-        found = False
-        if not killSet == []:
-            for constraint in self.contraints:
-                if constraint.name == killSet.name:
-                    tempConstraints.remove(constraint)
-        if not genSet == []:
-            for constraint in tempConstraints:
-                if constraint.name == genSet.name:
-                    constraint.values.append(genSet.values[0])
-                    found = True
-            if not found:
-                tempConstraints.append(genSet)
-        self.contraints = tempConstraints

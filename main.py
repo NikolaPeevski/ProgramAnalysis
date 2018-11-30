@@ -17,6 +17,7 @@ from microCTypes.WhileStatement import WhileStatement
 from microCTypes.BooleanExpression import BooleanExpression
 from microCTypes.Statement import Statement
 from microCTypes.EndNode import EndNode
+from algorithms.Worklist import Worklist
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
 __license__ = "MIT"
@@ -37,8 +38,6 @@ def main():
 
     # print(program.toString())
 
-    # For now I can't figure out how to label assign automated so we'll have to do it by hand
-    label = 0;
     lb1 = VariableAssignmentStatement("z", 5)
 
     lb2 = WhileStatement(BooleanExpression(
@@ -48,38 +47,8 @@ def main():
     lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
     lb5 = Statement("Skip", "Skip")
-    lb6 = VariableAssignmentStatement("y", 6)
+    lb6 = VariableDeclaration("y", 2)
 
-    program.appendNode(lb1)
-
-    program.appendNode(lb2)
-
-    lb2.appendNode(lb4)
-    lb2.appendNode(lb6)
-    lb2.appendNode(lb3)
-    lb4.appendNode(lb5)
-    lb4_1.appendNode(lb5)
-    lb4.appendNode(lb4_1)
-
-    #program.appendNode(lb1)
-
-    #lb1.appendNode(lb2)
-
-    #lb2.appendNode(lb3)
-
-    #lb2.appendNode(lb6)
-
-    #lb3.appendNode(lb4)
-
-    #lb3.appendNode(lb2)
-
-    #lb4.appendNode(lb4_1)
-
-    #lb4.appendNode(lb3)
-
-    #lb5.appendNode(lb4_1)
-
-    #lb6.appendNode(lb7)
 
     lb7 = EndNode("EndNode")
     lb7.constraint = []
@@ -93,20 +62,47 @@ def main():
           lb5 : [lb4_1],
           lb6 : [lb7]
         }
-    program.getNodes()
-    program.getProgramBlocks()
-
-
-
-
-
-
 
     analysis = ReachingDefinitions(graph)
-    analysis.startAnalysis()
+    workList = Worklist(graph, analysis)
+    workList.worklist()
+
     print(" ")
     for i in graph:
         print(i.constraint)
+
+        # program.appendNode(lb1)
+
+        # program.appendNode(lb2)
+
+        # lb2.appendNode(lb4)
+        # lb2.appendNode(lb6)
+        # lb2.appendNode(lb3)
+        # lb4.appendNode(lb5)
+        # lb4_1.appendNode(lb5)
+        # lb4.appendNode(lb4_1)
+
+        # program.appendNode(lb1)
+
+        # lb1.appendNode(lb2)
+
+        # lb2.appendNode(lb3)
+
+        # lb2.appendNode(lb6)
+
+        # lb3.appendNode(lb4)
+
+        # lb3.appendNode(lb2)
+
+        # lb4.appendNode(lb4_1)
+
+        # lb4.appendNode(lb3)
+
+        # lb5.appendNode(lb4_1)
+
+        # lb6.appendNode(lb7)
+
+
 if __name__ == "__main__":
     """ This is executed when run from the command line """
     main()
