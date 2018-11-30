@@ -4,6 +4,7 @@ Module Docstring
 """
 from algorithms.Worklist import Worklist
 from analysis.SignDetection.SignDetection import SignDetection
+from analysis.ReachingDefinitions.ReachingDefinitions import  ReachingDefinitions
 from microCTypes.BooleanExpression import BooleanExpression
 from microCTypes.EndNode import EndNode
 from microCTypes.ExpressionEntry import ExpressionEntry
@@ -71,7 +72,7 @@ def main():
              lb6: [lb7]
              }
 
-    analysis = SignDetection(graph)
+    analysis = ReachingDefinitions(graph)
     workList = Worklist(graph, analysis)
     workList.worklist()
 
