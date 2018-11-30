@@ -35,7 +35,7 @@ class ReachingDefinitions(Analysis):
 
 
 
-    def analysenew(self, analyseObject):
+    def analyse(self, analyseObject):
         output = analyseObject[0].constraint.copy() #   Copy the constraints so we can work with them safely
 
         if type(analyseObject[1]) == VariableAssignmentStatement or type(analyseObject[1]) == VariableDeclaration: # If type variable assignment
@@ -43,7 +43,7 @@ class ReachingDefinitions(Analysis):
             for constraint in initialConstraints: #     For all these constraints
                 if constraint[0] == analyseObject[1].getName(): #       If the assignments variable is represented in a known constraint
                     output.remove(constraint) #     Remove that constraints - kill it
-            genSet = (analyseObject[1].getName(), analyseObject[1].label) #     create a genSet based on the name of variable and the label of the node we're going to
+            genSet = (analyseObject[1].getName(), str(analyseObject[1].label)) #     create a genSet based on the name of variable and the label of the node we're going to
             output.append(genSet) #     Put the new constraint into the known constraints
 
 

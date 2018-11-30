@@ -84,7 +84,7 @@ class Worklist(ABC):
 
             self.__worklist.remove(next) # Remove the edge from the worklist
             workedOn = False
-            new = self.__analysis.analysenew(next) # Analysestep for the individual analysis
+            new = self.__analysis.analyse(next) # Analysestep for the individual analysis
 
             # TODO: Make sure the comparison is correct
             if not next[1] is None:     # Null check

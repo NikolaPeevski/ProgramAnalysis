@@ -68,7 +68,23 @@ def main():
     workList.worklist()
 
     print(" ")
+    # representation parsing
     for i in graph:
+        for x in i.constraint:
+            for y in i.constraint:
+                if x == y:
+                    continue
+                elif x[0] == y[0]:
+                    badguy = list(x)
+                    if not y[1].__contains__(x[1]):
+                        badguy[1] = str(x[1]) + ", " +str(y[1])
+                        i.constraint.append(tuple(badguy))
+                        if i.constraint.__contains__(x):
+                            i.constraint.remove(x)
+                        if i.constraint.__contains__(y):
+                            i.constraint.remove(y)
+
+
         print(i.constraint)
 
         # program.appendNode(lb1)
