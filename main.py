@@ -2,22 +2,18 @@
 """
 Module Docstring
 """
-from analysis.ReachingDefinitions.ReachingDefinitions import ReachingDefinitions
-from analysis.Analysis import Analysis
-from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
-from microCTypes.ArithmeticExpression import ArithmeticExpression
-from microCTypes.SequenceStatement import SequenceStatement
-from microCTypes.Program import Program
-from microCTypes import BaseNode
-from microCTypes.VariableDeclaration import VariableDeclaration
+from algorithms.Worklist import Worklist
+from analysis.SignDetection.SignDetection import SignDetection
+from microCTypes.BooleanExpression import BooleanExpression
+from microCTypes.EndNode import EndNode
 from microCTypes.ExpressionEntry import ExpressionEntry
 from microCTypes.Operator import Operator
-from microCTypes.Variable import Variable
-from microCTypes.WhileStatement import WhileStatement
-from microCTypes.BooleanExpression import BooleanExpression
+from microCTypes.Program import Program
 from microCTypes.Statement import Statement
-from microCTypes.EndNode import EndNode
-from algorithms.Worklist import Worklist
+from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
+from microCTypes.VariableDeclaration import VariableDeclaration
+from microCTypes.WhileStatement import WhileStatement
+
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
 __license__ = "MIT"
@@ -41,35 +37,48 @@ def main():
     lb1 = VariableAssignmentStatement("z", 5)
 
     lb2 = WhileStatement(BooleanExpression(
-        [ExpressionEntry("Variable", "Z"), ExpressionEntry(Operator("Relative", "="), "="),
-         ExpressionEntry(Operator("Relative", "="), "="), ExpressionEntry("5", "5")]))
+        [
+            ExpressionEntry("Variable", "z"),
+            ExpressionEntry(Operator("Relative", "=="), "=="),
+            ExpressionEntry("Integer", "5")
+        ])
+    )
     lb3 = VariableAssignmentStatement("x", 5)
-    lb4 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
-    lb4_1 = WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]))
+    lb4 = WhileStatement(
+        BooleanExpression([
+            ExpressionEntry(Operator("Boolean", "true"), "true")
+        ])
+    )
+    lb4_1 = WhileStatement(
+        BooleanExpression([
+            ExpressionEntry(Operator("Boolean", "true"), "true")
+        ])
+    )
     lb5 = Statement("Skip", "Skip")
-    lb6 = VariableDeclaration("y", 2)
 
+    lb6 = VariableDeclaration("y")
 
     lb7 = EndNode("EndNode")
     lb7.constraint = []
 
-    graph = { program : [lb1],
-          lb1 : [lb2],
-          lb2 : [lb3, lb6],
-          lb3 : [lb2, lb4],
-          lb4 : [lb4_1, lb3],
-          lb4_1 : [lb5, lb4],
-          lb5 : [lb4_1],
-          lb6 : [lb7]
-        }
+    graph = {program: [lb1],
+             lb1: [lb2],
+             lb2: [lb3, lb6],
+             lb3: [lb2, lb4],
+             lb4: [lb4_1, lb3],
+             lb4_1: [lb5, lb4],
+             lb5: [lb4_1],
+             lb6: [lb7]
+             }
 
-    analysis = ReachingDefinitions(graph)
+    analysis = SignDetection(graph)
     workList = Worklist(graph, analysis)
     workList.worklist()
 
-    print(" ")
+    # print(" ")
     for i in graph:
-        print(i.constraint)
+        pass
+        # print(i.constraint)
 
         # program.appendNode(lb1)
 
