@@ -3,6 +3,8 @@
 Module Docstring
 """
 from algorithms.Worklist import Worklist
+from algorithms.LIFO import LIFO
+from algorithms.FIFO import FIFO
 from analysis.SignDetection.SignDetection import SignDetection
 from analysis.ReachingDefinitions.ReachingDefinitions import  ReachingDefinitions
 from microCTypes.BooleanExpression import BooleanExpression
@@ -72,9 +74,9 @@ def main():
              lb6: [lb7]
              }
 
-    analysis = ReachingDefinitions(graph)
-    workList = Worklist(graph, analysis)
-    workList.worklist()
+    analysis = ReachingDefinitions(graph) #    Analysis is set to the analysis we want, ReachingDefinitions or SignDetection
+    workList = FIFO(graph, analysis) #  Instantiate the work list as either FIFO (First in, First out) or LIFO (Last in, First out
+    workList.worklist() #   Start the analysis
 
     print(" ")
     # representation parsing
