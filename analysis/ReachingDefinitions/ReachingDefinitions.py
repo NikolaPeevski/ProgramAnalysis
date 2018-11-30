@@ -5,6 +5,8 @@ from algorithms.Worklist import Worklist
 from microCTypes import BaseNode
 from microCTypes.Program import Program
 from microCTypes import Statement
+from microCTypes import VariableAssignmentStatement
+from microCTypes import VariableDeclaration
 
 class ReachingDefinitions(Analysis):
     killSet = []
@@ -22,7 +24,17 @@ class ReachingDefinitions(Analysis):
         self.contraints = []
 
         self.edges = []
-        self.initialConstraints = [("x", "?"), ("y", "?"), ("z", "?")]
+
+        self.initialConstraints = []
+
+        for programPoint in program:
+            if type(programPoint) == mt.VariableAssignmentStatement.VariableAssignmentStatement or type(programPoint) == mt.VariableDeclaration:
+                new = (programPoint.getName(), "?")
+                if not self.initialConstraints.__contains__(new):
+                    self.initialConstraints.append(new)
+
+
+
 
 
 
