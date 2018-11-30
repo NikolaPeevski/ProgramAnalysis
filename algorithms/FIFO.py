@@ -15,10 +15,7 @@ class FIFO(Worklist):
         super().__init__(program, analysis)
 
     def insert(self, constraint) -> None:
-        pass
+        self.worklist_items.append(constraint)
 
     def extract(self) -> BaseNode:
-        pass
-
-    def empty(self):
-        return None
+        return self.worklist_items[len(self.worklist_items) - 1]

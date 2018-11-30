@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from analysis import Analysis, Constraint
 from microCTypes.BaseNode import BaseNode
@@ -7,7 +7,7 @@ from microCTypes.Program import Program
 
 class Worklist(ABC):
 
-    def __init__(self, program: Program, analysis: Analysis):
+    def __init__(self, program, analysis: Analysis):
         """
         Abstract base class for all Worklist algorithms
         :param program: The program to analyse
@@ -15,17 +15,17 @@ class Worklist(ABC):
         """
         self.__program = program  # The actual program that needs to be analysed
         self.__analysis = analysis  # The analysis we want to apply to the program
-        self.__worklist = []  # Array containing the work list items
+        self.worklist_items = []  # Array containing the work list items
         self.__constraints = []  # The updated constraints for each work list
 
-    # @abstractmethod
+    @abstractmethod
     def extract(self) -> BaseNode:
         """
         Extract the next constraint from the work list to be analysed
         """
         pass
 
-    # @abstractmethod
+    @abstractmethod
     def insert(self, constraint) -> None:
         """
         Insert a constraint into the work item list
@@ -33,13 +33,12 @@ class Worklist(ABC):
         """
         pass
 
-    # @abstractmethod
     def empty(self) -> bool:
         """
         Check if the work list is empty
         :return: True if the work list is empty, false if it is not empty
         """
-        return len(self.__worklist) == 0
+        return len(self.worklist_items) == 0
 
     def __analyse(self, step: BaseNode) -> Constraint:
         """
@@ -65,24 +64,24 @@ class Worklist(ABC):
             node.label = counter  # Establishes labels for our nodes
             counter = counter + 1
             for neighbour in self.__program[node]:  # Worklist is supplemented with every edge from the collected nodes
-                self.__worklist.append((node, neighbour))
+                # self.__worklist.append((node, neighbour))
+                self.insert((node, neighbour))
 
         while not self.empty():
 
-            next = self.__worklist[len(self.__worklist) - 1]  # LIFO worklist - Consider the next edge
-            # next = self.__worklist[0]  # #FIFO worklist - Consider the next edge
+            next = self.extract()  # Consider the next edge
 
             # for console printing only
             labeling = []
             RD0 = []
-            for points in self.__worklist:
+            for points in self.worklist_items:
                 labeling.append(str(points[0].getLabel()) + " to " + str(points[1].getLabel()))
             for point in self.__program:
                 RD0.append(point.constraint)
             print(str(labeling) + " = " + str(RD0))
             ###
 
-            self.__worklist.remove(next)  # Remove the edge from the worklist
+            self.worklist_items.remove(next)  # Remove the edge from the worklist
             workedOn = False
             new = self.__analysis.analyse(next)  # Analyse step for the individual analysis
 
@@ -96,6 +95,7 @@ class Worklist(ABC):
                     if not self.__program.get(next[1]) is None:  # Null check
                         for newEdge in self.__program.get(
                                 next[1]):  # For the edges that go from the node we're going to
-                            if not self.__worklist.__contains__(
+                            if not self.worklist_items.__contains__(
                                     (next[1], newEdge)):  # If the edge is not already in the worklist
-                                self.__worklist.append((next[1], newEdge))  # We add it
+                                self.insert((next[1], newEdge))
+                                # self.__worklist.append((next[1], newEdge))  # We add it
