@@ -76,10 +76,18 @@ class Worklist(ABC):
         while not self.empty():
 
             next = self.__worklist[0]  # Consider the next constraint
+
+            labeling = []
+            RD0 = []
+            for points in self.__worklist:
+                labeling.append(str(points[0].getLabel()) + " to " + str(points[1].getLabel()))
+            for point in self.__program:
+                RD0.append(point.constraint)
+            print(str(labeling) + " = " + str(RD0))
+
             self.__worklist.remove(next) # Remove it from the worklist
             workedOn = False # to see if there's been worked on it
             new = self.__analysis.analysenew(next) #analysestep
-
 
             # TODO: Make sure the comparison is correct
             if not next[1] is None: #null check
@@ -100,9 +108,5 @@ class Worklist(ABC):
 
  #               for next_infl in self.__influenced[next.getLabel()]:
   #                  self.insert(next_infl)  # Update the worklist
-            labeling = []
 
-            for points in self.__worklist:
-                labeling.append(str(points[0].getLabel()) + " to " + str(points[1].getLabel()))
-            print(str(labeling) + " = " + str(next[0].constraint))
 
