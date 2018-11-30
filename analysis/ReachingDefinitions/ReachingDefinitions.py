@@ -22,38 +22,36 @@ class ReachingDefinitions(Analysis):
         self.contraints = []
 
         self.edges = []
-        counter = 0
-        for node in program:
-            node.label = counter
-            counter = counter+1
-            for neighbour in program[node]:
-                self.edges.append((node, neighbour))
+        self.initialConstraints = [("x", "?"), ("y", "?"), ("z", "?")]
+
+
 
         # self.analyse(program.getNodes())
 
     def startAnalysis(self):
 #        initialConstraints = [0, Constraint("x", "?"), Constraint["y", "?"].Constraint["z", "?"]]
  ##          initialConstraints.append(x.getLabel(), [])
-        for x in self.program:
-            if type(x) == Program:
-                x.setConstraint([("x", "?"), ("y", "?"), ("z", "?")])
-            else:
-                x.constraint = []
-        workList = Worklist(self.program, self, self.edges)
+
+        workList = Worklist(self.program, self)
         workList.worklist()
 
     def analysenew(self, analyseObject):
-        output = analyseObject[0].constraint.copy()
-        if type(analyseObject[1]) == mt.Statement.Statement:
-            hej = 0
-        if type(analyseObject[1]) == mt.VariableAssignmentStatement.VariableAssignmentStatement:
-            initialConstraints = analyseObject[0].constraint
+        output = analyseObject[0].constraint.copy() #copy the constraints so we can work with them safely
+
+        if type(analyseObject[1]) == mt.VariableAssignmentStatement.VariableAssignmentStatement: # if type variable assignment
+            initialConstraints = analyseObject[0].constraint #
             for constraint in initialConstraints:
                 if constraint[0] == analyseObject[1].getName():
                     output.remove(constraint)
             genSet = (analyseObject[1].getName(), analyseObject[1].label)
             output.append(genSet)
+
+    #    if type analyseObject[1] == mt.Variable
         return output
+
+
+
+
 
 #isn't used atm, but still using as reference.
     def analyse(self, step, constraints):

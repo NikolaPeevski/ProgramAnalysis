@@ -7,7 +7,7 @@ from microCTypes.Program import Program
 
 class Worklist(ABC):
 
-    def __init__(self, program: Program, analysis: Analysis, edges = []):
+    def __init__(self, program: Program, analysis: Analysis):
         """
         Abstract base class for all Worklist algorithms
         :param program: The program to analyse
@@ -15,7 +15,7 @@ class Worklist(ABC):
         """
         self.__program = program  # The actual program that needs to be analysed
         self.__analysis = analysis  # The analysis we want to apply to the program
-        self.__worklist = edges  # Array containing the work list items
+        self.__worklist = []  # Array containing the work list items
         self.__constraints = []  # The updated constraints for each work list
         self.__influenced = []  # Influenced variables
 
@@ -54,6 +54,18 @@ class Worklist(ABC):
         """
         The general work list algorithm implemented according to lecture 8 slide 15
         """
+        for x in self.__program:
+            if type(x) == Program:
+                x.setConstraint(self.__analysis.initialConstraints)
+            else:
+                x.constraint = []
+
+        counter = 0
+        for node in self.__program:
+            node.label = counter
+            counter = counter + 1
+            for neighbour in self.__program[node]:
+                self.__worklist.append((node, neighbour))
         #for x in self.__program.nodes:
          #   self.__worklist.append(x)  # all constraints in the worklist
             # TODO: Empty set as the least possible value in the lattice. Don't know if this is correct?
@@ -65,13 +77,13 @@ class Worklist(ABC):
 
             next = self.__worklist[0]  # Consider the next constraint
             self.__worklist.remove(next) # Remove it from the worklist
-            workedOn = False
+            workedOn = False # to see if there's been worked on it
             new = self.__analysis.analysenew(next) #analysestep
 
 
             # TODO: Make sure the comparison is correct
-            if not next[1] is None:
-                for constraint in new:
+            if not next[1] is None: #null check
+                for constraint in new: #
                     if not next[1].constraint.__contains__(constraint):  # Any work to do?
                         next[1].constraint.append(constraint)
                         workedOn = True
