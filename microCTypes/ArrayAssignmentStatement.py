@@ -2,7 +2,7 @@ from microCTypes.Statement import Statement
 from microCTypes.ArithmeticExpression import ArithmeticExpression
 
 
-class VariableAssignmentStatement(Statement):
+class ArrayAssignmentStatement(Statement):
 
     def __init__(self, array_name: str, index: int, value: ArithmeticExpression):
         """

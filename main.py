@@ -56,12 +56,13 @@ def main():
     lb7 = EndNode("EndNode")
     lb7.constraint = []
 
-    graph = {program: [lb1],
-             lb1: [lb2],
-             lb2: [lb3, lb7],
-             lb3: [lb4],
-             lb4: [lb7]
-             }
+    graph = {
+       program: [lb1],
+       lb1: [lb2],
+       lb2: [lb3, lb7],
+       lb3: [lb4],
+       lb4: [lb7]
+   }
 
     analysis = SignDetection(graph)
 
