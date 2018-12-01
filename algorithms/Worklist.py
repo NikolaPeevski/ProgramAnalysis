@@ -92,9 +92,9 @@ class Worklist(ABC):
                         next[1].constraint.append(constraint)  # Put the analysed constraints into the following node
                         workedOn = True
                 if workedOn == True:  # If we've had work
-                        for newEdge in self.__program.get(
-                                next[1]):  # For the edges that go from the node we're going to
-                            if not self.worklist_items.__contains__(
-                                    (next[1], newEdge)):  # If the edge is not already in the worklist
-                                self.insert((next[1], newEdge))
-                                # self.__worklist.append((next[1], newEdge))  # We add it
+                    if not self.__program.get(next[1]) is None:  # Null check
+                            for newEdge in self.__program.get(next[1]):  # For the edges that go from the node we're going to
+                                if not self.worklist_items.__contains__(
+                                        (next[1], newEdge)):  # If the edge is not already in the worklist
+                                    self.insert((next[1], newEdge))
+                                    # self.__worklist.append((next[1], newEdge))  # We add it
