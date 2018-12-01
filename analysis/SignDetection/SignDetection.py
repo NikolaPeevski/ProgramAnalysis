@@ -28,14 +28,19 @@ class SignDetection(Analysis):
     def isType(self, variable, t) -> bool:
         return type(variable) == t
 
-    def lookUpConstraint(self, needle: str, constraints):
+    def lookUpConstraint(self, needle: str, constraints) -> tuple:
         for constraint in constraints:
             if needle == constraint[0]:
                 return constraint
         return None
 
-    def handleArithmeticExpression(self, constraint: tuple, expression: ArithmeticExpression):
-        pass
+    def handleArithmeticExpression(self, expression: ArithmeticExpression, name: str, constraint: tuple, constrains):
+
+        expressions = expression.formattedExpression
+
+        for e in expressions:
+            if e.getType().lower() == 'variable':
+                constraint = constraint + self.lookUpConstraint(e.getEntry(), constrains)
 
     def handleBooleanExpression(self, step: list, output, booleanExpression: BooleanExpression):
 
@@ -104,6 +109,7 @@ class SignDetection(Analysis):
         return result
 
     def handleInteger(self, value):
+        value = int(value)
         if value > 0:
             return {'+'}
         elif value < 0:
@@ -115,11 +121,14 @@ class SignDetection(Analysis):
 
         for constraint in output:
             step_name = step[1].getName()
-            step_value = int(step[1].getType())
+            step_value = step[1].getType()
             new_value = constraint
-
             if constraint[0] == step_name:
-                c = self.handleInteger(step_value)
+                if isinstance(step_value, ArithmeticExpression):  # Some how won't check for type or instance
+                    c = self.handleArithmeticExpression(step_value, step_name, new_value, output)
+                    c = {'+', '-'}
+                else:
+                    c = self.handleInteger(step_value)
                 new_value = (step_name, c)
 
             output.remove(constraint)
