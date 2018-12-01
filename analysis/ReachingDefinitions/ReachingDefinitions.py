@@ -1,4 +1,5 @@
 from analysis.Analysis import Analysis
+from microCTypes.ArrayDeclaration import ArrayDeclaration
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.VariableDeclaration import VariableDeclaration
 from microCTypes.ArrayAssignmentStatement import ArrayAssignmentStatement
@@ -25,7 +26,7 @@ class ReachingDefinitions(Analysis):
         self.initialConstraints = []
 
         for programPoint in program:  # Create initial constrants based on variables across the program
-            if type(programPoint) == VariableAssignmentStatement or type(programPoint) == VariableDeclaration or type(programPoint) == ArrayAssignmentStatement:  # if it's a variable declaration or variable assignment
+            if type(programPoint) == VariableAssignmentStatement or type(programPoint) == VariableDeclaration or type(programPoint) == ArrayAssignmentStatement or type(programPoint) == ArrayDeclaration:  # if it's a variable declaration or variable assignment
                 new = (programPoint.getName(), '?')  # create new constraint
                 if not self.initialConstraints.__contains__(new):  # if the constraint is not already in the initial constraints - this would be the case with multiple assigments of variable X
                     self.initialConstraints.append(new)  # add the constraint
@@ -42,7 +43,7 @@ class ReachingDefinitions(Analysis):
             genSet = (step[1].getName(), str(step[1].label))  # create a genSet based on the name of variable and the label of the node we're going to
             output.append(genSet)  # Put the new constraint into the known constraints
 
-        if type(step[1]) == VariableDeclaration:  # If type variable declaration)
+        if type(step[1]) == VariableDeclaration or type(step[1] == ArrayDeclaration):  # If type variable declaration)
             initialConstraints = step[0].constraint  # get the constraints we know from the node we're going from
             for constraint in initialConstraints:  # For all these constraints
                 if constraint[0] == step[1].getName():  # If the assignments variable is represented in a known constraint
