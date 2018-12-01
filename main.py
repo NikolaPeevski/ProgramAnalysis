@@ -71,7 +71,7 @@ def main():
              lb4: [lb4_1, lb3],
              lb4_1: [lb5, lb4],
              lb5: [lb4_1],
-             lb6: [lb7]
+             lb6: []
              }
 
     analysis = ReachingDefinitions(graph) #    Analysis is set to the analysis we want, ReachingDefinitions or SignDetection

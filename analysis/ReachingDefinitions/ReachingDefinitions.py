@@ -1,6 +1,7 @@
 from analysis.Analysis import Analysis
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.VariableDeclaration import VariableDeclaration
+from microCTypes.ArrayAssignmentStatement import ArrayAssignmentStatement
 
 
 class ReachingDefinitions(Analysis):
@@ -36,11 +37,11 @@ class ReachingDefinitions(Analysis):
         if type(step[1]) == VariableAssignmentStatement:  # If type variable assignment
             initialConstraints = step[0].constraint  # get the constraints we know from the node we're going from
             for constraint in initialConstraints:  # For all these constraints
-                if constraint[0] == step[
-                    1].getName():  # If the assignments variable is represented in a known constraint
+                if constraint[0] == step[1].getName():  # If the assignments variable is represented in a known constraint
                     output.remove(constraint)  # Remove that constraints - kill it
             genSet = (step[1].getName(), str(step[1].label))  # create a genSet based on the name of variable and the label of the node we're going to
             output.append(genSet)  # Put the new constraint into the known constraints
+
         if type(step[1]) == VariableDeclaration:  # If type variable declaration)
             initialConstraints = step[0].constraint  # get the constraints we know from the node we're going from
             for constraint in initialConstraints:  # For all these constraints
@@ -48,6 +49,10 @@ class ReachingDefinitions(Analysis):
                     output.remove(constraint)  # Remove that constraints - kill it
             genSet = (step[1].getName(), str(""))  # create a genSet based on the name of variable because it is a declaration, set the set to empty
             output.append(genSet)  # Put the new constraint into the known constraints
+
+        if type(step[1]) == ArrayAssignmentStatement:
+            initialConstraints = step[0].constraint  # get the constraints we know from the node we're going from
+            genSet = (step[1].getName(), str(step[1].label))  # create a genSet based on the name of variable and the label of the node we're going to
         # For all other types, skip analysis
         # Forward the constraints
         return output

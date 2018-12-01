@@ -18,4 +18,4 @@ class FIFO(Worklist):
         self.worklist_items.append(constraint)
 
     def extract(self) -> BaseNode:
-        return self.worklist_items[len(self.worklist_items) - 1]
+        return self.worklist_items[0]

@@ -14,7 +14,7 @@ class LIFO(Worklist):
         super().__init__(program, analysis)
 
     def insert(self, constraint) -> None:
-        self.worklist_items.insert(0, constraint)
+        self.worklist_items.append(constraint)
 
     def extract(self) -> BaseNode:
         return self.worklist_items[len(self.worklist_items) - 1]
