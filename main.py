@@ -4,13 +4,13 @@ Module Docstring
 """
 from algorithms.FIFO import FIFO
 from analysis.SignDetection.SignDetection import SignDetection
-from microCTypes.ArithmeticExpression import ArithmeticExpression
 from microCTypes.BooleanExpression import BooleanExpression
 from microCTypes.EndNode import EndNode
 from microCTypes.ExpressionEntry import ExpressionEntry
 from microCTypes.Program import Program
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.WhileStatement import WhileStatement
+from microCTypes.ArithmeticExpression import ArithmeticExpression
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
