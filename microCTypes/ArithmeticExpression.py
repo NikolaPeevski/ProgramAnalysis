@@ -2,29 +2,14 @@ from microCTypes.Expression import Expression
 
 
 class ArithmeticExpression(Expression):
-    formattedExpression: [] = []
 
-    def __init__(self, entries: []):
+    def __init__(self, entries: list):
         """
         :param entries: An array/list of ExpressionEntry
         """
-        super().__init__("ArithmeticExpression")
+        super().__init__('ArithmeticExpression')
 
         self.formattedExpression = entries
-
-    def getExpression(self):
-        """
-        :return: Something like x+5
-        """
-        expression = ""
-
-        for i in self.formattedExpression:
-            expression += i.getEntry()
-
-        return expression
-
-    def getName(self):
-        return self.getExpression()
 
     def evaluateExpression(self):
         """

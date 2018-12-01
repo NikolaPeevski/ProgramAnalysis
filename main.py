@@ -2,20 +2,15 @@
 """
 Module Docstring
 """
-from algorithms.Worklist import Worklist
-from algorithms.LIFO import LIFO
 from algorithms.FIFO import FIFO
 from analysis.SignDetection.SignDetection import SignDetection
-from analysis.ReachingDefinitions.ReachingDefinitions import  ReachingDefinitions
 from microCTypes.BooleanExpression import BooleanExpression
 from microCTypes.EndNode import EndNode
 from microCTypes.ExpressionEntry import ExpressionEntry
-from microCTypes.Operator import Operator
 from microCTypes.Program import Program
-from microCTypes.Statement import Statement
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
-from microCTypes.VariableDeclaration import VariableDeclaration
 from microCTypes.WhileStatement import WhileStatement
+from microCTypes.ArithmeticExpression import ArithmeticExpression
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
@@ -28,55 +23,52 @@ def main():
     # TODO: Add lattice generation, low priority unless demanded
     # TODO: Add lattice utils (parsing, node printing etc), low priority unless demanded
     # TODO: Add automated label assigning, low priority
-    program = Program("MyProgram1")
-    # xDeclaration = program.makeDeclaration(VariableDeclaration('z'))
-    #
-    # program.makeStatement(VariableAssignmentStatement(xDeclaration.getVariable(), ArithmeticExpression([ExpressionEntry("Variable", "x"), ExpressionEntry(Operator("Arithmetic", "+"), "+"), ExpressionEntry("Variable", "y")])))
-    # program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
-    # program.makeStatement(WhileStatement(BooleanExpression([ExpressionEntry(Operator("Boolean", "true"), "true")]), Statement("skip", "skip")))
 
-    # print(program.toString())
+    program = Program('TestProgram')
 
-    lb1 = VariableAssignmentStatement("z", 5)
+    lb1 = VariableAssignmentStatement("y", 1)
 
     lb2 = WhileStatement(BooleanExpression(
         [
-            ExpressionEntry("Variable", "z"),
-            ExpressionEntry(Operator("Relative", "=="), "=="),
-            ExpressionEntry("Integer", "5")
-        ])
-    )
-    lb3 = VariableAssignmentStatement("x", 5)
-    lb4 = WhileStatement(
-        BooleanExpression([
-            ExpressionEntry(Operator("Boolean", "true"), "true")
-        ])
-    )
-    lb4_1 = WhileStatement(
-        BooleanExpression([
-            ExpressionEntry(Operator("Boolean", "true"), "true")
-        ])
-    )
-    lb5 = Statement("Skip", "Skip")
+            ExpressionEntry("Variable", "y"),
+            ExpressionEntry("Boolean", ">"),
+            ExpressionEntry("Integer", "0")
+        ]
+    ))
 
-    lb6 = VariableDeclaration("y")
+    lb3 = VariableAssignmentStatement("y",
+                                      ArithmeticExpression(
+                                          [
+                                              ExpressionEntry("Variable", "x"),
+                                              ExpressionEntry("Arithmetic", '*'),
+                                              ExpressionEntry("Variable", "y")
+                                          ]
+                                      ))
+
+    lb4 = VariableAssignmentStatement("x",
+                                      ArithmeticExpression([
+                                          ExpressionEntry("Variable", "x"),
+                                          ExpressionEntry("Arithmetic", "-"),
+                                          ExpressionEntry("Integer", "1")
+                                      ]
+                                      ))
 
     lb7 = EndNode("EndNode")
     lb7.constraint = []
 
-    graph = {program: [lb1],
-             lb1: [lb2],
-             lb2: [lb3, lb6],
-             lb3: [lb2, lb4],
-             lb4: [lb4_1, lb3],
-             lb4_1: [lb5, lb4],
-             lb5: [lb4_1],
-             lb6: []
-             }
+    graph = {
+       program: [lb1],
+       lb1: [lb2],
+       lb2: [lb3, lb7],
+       lb3: [lb4],
+       lb4: [lb7]
+   }
 
-    analysis = ReachingDefinitions(graph) #    Analysis is set to the analysis we want, ReachingDefinitions or SignDetection
-    workList = FIFO(graph, analysis) #  Instantiate the work list as either FIFO (First in, First out) or LIFO (Last in, First out
-    workList.worklist() #   Start the analysis
+    analysis = SignDetection(graph)
+
+    workList = FIFO(graph, analysis)
+
+    workList.worklist()
 
     print(" ")
     # representation parsing
@@ -88,13 +80,12 @@ def main():
                 elif x[0] == y[0]:
                     badguy = list(x)
                     if not y[1].__contains__(x[1]):
-                        badguy[1] = str(x[1]) + ", " +str(y[1])
+                        badguy[1] = str(x[1]) + ", " + str(y[1])
                         i.constraint.append(tuple(badguy))
                         if i.constraint.__contains__(x):
                             i.constraint.remove(x)
                         if i.constraint.__contains__(y):
                             i.constraint.remove(y)
-
 
         print(i.constraint)
 

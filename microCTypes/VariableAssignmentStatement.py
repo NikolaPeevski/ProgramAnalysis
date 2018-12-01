@@ -19,9 +19,9 @@ class VariableAssignmentStatement(Statement):
                 super().__init__(variable, value)
         else:
             if type(value) == int:
-                super().__init__(variable, str(value))
+                super().__init__(variable, value)
             else:
-                super().__init__(variable, str(value))
+                super().__init__(variable, value)
 
 
         # super().__init__(variable.getName() + value.getExpression(), "Variable")
