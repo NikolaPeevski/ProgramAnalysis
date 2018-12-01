@@ -25,7 +25,7 @@ class ReachingDefinitions(Analysis):
         self.initialConstraints = []
 
         for programPoint in program:  # Create initial constrants based on variables across the program
-            if type(programPoint) == VariableAssignmentStatement or type(programPoint) == VariableDeclaration:  # if it's a variable declaration or variable assignment
+            if type(programPoint) == VariableAssignmentStatement or type(programPoint) == VariableDeclaration or type(programPoint) == ArrayAssignmentStatement:  # if it's a variable declaration or variable assignment
                 new = (programPoint.getName(), '?')  # create new constraint
                 if not self.initialConstraints.__contains__(new):  # if the constraint is not already in the initial constraints - this would be the case with multiple assigments of variable X
                     self.initialConstraints.append(new)  # add the constraint
