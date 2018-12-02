@@ -112,11 +112,12 @@ def main():
 
     graph = {
         program: [lb1],
-        lb1: [lb2, lb8],
+        lb1: [lb2, lb7],
         lb2: [lb3],
         lb3: [lb4],
-        lb4: [lb5, lb7],
-        lb5: [lb6, lb7],
+        lb4: [lb5, lb1],
+        lb5: [lb6],
+        lb6: [lb4],
         lb7: [lb8]
     }
 
@@ -142,7 +143,6 @@ def main():
                             i.constraint.remove(x)
                         if i.constraint.__contains__(y):
                             i.constraint.remove(y)
-
         print(i.constraint)
 
         # program.appendNode(lb1)
