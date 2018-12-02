@@ -11,6 +11,12 @@ from microCTypes.Program import Program
 from microCTypes.VariableAssignmentStatement import VariableAssignmentStatement
 from microCTypes.WhileStatement import WhileStatement
 from microCTypes.ArithmeticExpression import ArithmeticExpression
+from analysis.ReachingDefinitions.ReachingDefinitions import ReachingDefinitions
+from microCTypes.IfStatement import IfStatement
+from microCTypes.Operator import Operator
+from microCTypes.WriteStatement import WriteStatement
+from microCTypes.Statement import Statement
+
 
 __author__ = "ProgramAnalysisGroup"
 __version__ = "0.1."
@@ -26,45 +32,93 @@ def main():
 
     program = Program('TestProgram')
 
-    lb1 = VariableAssignmentStatement("y", 1)
+    #  lb1 = VariableAssignmentStatement("y", 1)
+    #
+    #  lb2 = WhileStatement(BooleanExpression(
+    #      [
+    #          ExpressionEntry("Variable", "y"),
+    #          ExpressionEntry("Boolean", ">"),
+    #          ExpressionEntry("Integer", "0")
+    #      ]
+    #  ))
+    #
+    #  lb3 = VariableAssignmentStatement("y",
+    #                                    ArithmeticExpression(
+    #                                        [
+    #                                            ExpressionEntry("Variable", "x"),
+    #                                            ExpressionEntry("Arithmetic", '*'),
+    #                                            ExpressionEntry("Variable", "y")
+    #                                        ]
+    #                                    ))
+    #
+    #  lb4 = VariableAssignmentStatement("x",
+    #                                    ArithmeticExpression([
+    #                                        ExpressionEntry("Variable", "x"),
+    #                                        ExpressionEntry("Arithmetic", "-"),
+    #                                        ExpressionEntry("Integer", "1")
+    #                                    ]
+    #                                    ))
+    #
+    #  lb7 = EndNode("EndNode")
+    #  lb7.constraint = []
+    #
+    #  graph = {
+    #     program: [lb1],
+    #     lb1: [lb2],
+    #     lb2: [lb3, lb7],
+    #     lb3: [lb4],
+    #     lb4: [lb7]
+    # }
 
-    lb2 = WhileStatement(BooleanExpression(
+    lb1 = IfStatement(BooleanExpression(
         [
+            ExpressionEntry("Variable", "x"),
+            ExpressionEntry(Operator("Relative", ">="), ">="),
+            ExpressionEntry("Integer", "0"),
+            ExpressionEntry(Operator("Boolean", "&"), "&"),
             ExpressionEntry("Variable", "y"),
-            ExpressionEntry("Boolean", ">"),
+            ExpressionEntry(Operator("Relative", ">"), ">"),
             ExpressionEntry("Integer", "0")
         ]
     ))
 
-    lb3 = VariableAssignmentStatement("y",
-                                      ArithmeticExpression(
-                                          [
-                                              ExpressionEntry("Variable", "x"),
-                                              ExpressionEntry("Arithmetic", '*'),
-                                              ExpressionEntry("Variable", "y")
-                                          ]
-                                      ))
+    lb2 = VariableAssignmentStatement("q", "0")
+    lb3 = VariableAssignmentStatement("r", "x")
+    lb4 = WhileStatement(BooleanExpression(
+        [
+            ExpressionEntry("Variable", "r"),
+            ExpressionEntry(Operator("Relative", ">="), ">="),
+            ExpressionEntry("Variable", "y")
+        ]
+    ))
+    lb5 = VariableAssignmentStatement("r", ArithmeticExpression(
+        [
+            ExpressionEntry("Variable", "r"),
+            ExpressionEntry(Operator("Arithmetic", "-"), "-"),
+            ExpressionEntry("Variable", "y")
+        ]
+    ))
+    lb6 = VariableAssignmentStatement("q", ArithmeticExpression(
+        [
+            ExpressionEntry("Variable", "q"),
+            ExpressionEntry(Operator("Arithmetic", "+"), "+"),
+            ExpressionEntry("Integer", "1")
+        ]
+    ))
+    lb7 = WriteStatement(Statement("Variable", "r"))
 
-    lb4 = VariableAssignmentStatement("x",
-                                      ArithmeticExpression([
-                                          ExpressionEntry("Variable", "x"),
-                                          ExpressionEntry("Arithmetic", "-"),
-                                          ExpressionEntry("Integer", "1")
-                                      ]
-                                      ))
-
-    lb7 = EndNode("EndNode")
-    lb7.constraint = []
+    lb8 = EndNode("EndNode")
+    lb8.constraint = []
 
     graph = {
-       program: [lb1],
-       lb1: [lb2],
-       lb2: [lb3, lb7],
-       lb3: [lb4],
-       lb4: [lb7]
-   }
+        program: [lb1],
+        lb1: [lb2, lb3, lb4],
+        lb4: [lb5, lb7],
+        lb5: [lb6, lb7],
+        lb7: [lb8]
+    }
 
-    analysis = SignDetection(graph)
+    analysis = ReachingDefinitions(graph)
 
     workList = FIFO(graph, analysis)
 
