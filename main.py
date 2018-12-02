@@ -129,6 +129,7 @@ def main():
 
     print(" ")
     # representation parsing
+    counter = 0
     for i in graph:
         for x in i.constraint:
             for y in i.constraint:
@@ -143,9 +144,9 @@ def main():
                             i.constraint.remove(x)
                         if i.constraint.__contains__(y):
                             i.constraint.remove(y)
-        print(i.constraint)
+        print("Label " + str(i.label) + " = " + str(i.constraint))
 
-        # program.appendNode(lb1)
+    # program.appendNode(lb1)
 
         # program.appendNode(lb2)
 
