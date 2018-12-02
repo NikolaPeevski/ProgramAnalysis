@@ -115,9 +115,9 @@ def main():
         lb1: [lb2, lb7],
         lb2: [lb3],
         lb3: [lb4],
-        lb4: [lb5, lb1],
+        lb4: [lb5, lb7],
         lb5: [lb6],
-        lb6: [lb7],
+        lb6: [lb4],
         lb7: [lb8]
     }
 
